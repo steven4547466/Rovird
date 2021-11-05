@@ -1,0 +1,54 @@
+{
+ "className": "Script",
+ "name": "Script",
+ "referent": "RBX38B8E311D9CD4F83900924E945A14FE4",
+ "properties": {
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Disabled": {
+   "_propertyType": "bool",
+   "values": {
+    "_": "false"
+   }
+  },
+  "LinkedSource": {
+   "_propertyType": "Content",
+   "values": {
+    "null": [
+     ""
+    ]
+   }
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "Script"
+   }
+  },
+  "ScriptGuid": {
+   "_propertyType": "string",
+   "values": {
+    "_": "{3A23A5B8-5ED3-4885-8029-345F5758A168}"
+   }
+  },
+  "Source": {
+   "_propertyType": "ProtectedString",
+   "values": {
+    "_": "script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)\nscript.Parent:GetPropertyChangedSignal(\"AbsoluteContentSize\"):Connect(function()\n\tscript.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) \nend)"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}

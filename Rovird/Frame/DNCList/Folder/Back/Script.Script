@@ -1,0 +1,54 @@
+{
+ "className": "Script",
+ "name": "Script",
+ "referent": "RBX04F5575C4BE24931B030B8D65435FC4B",
+ "properties": {
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Disabled": {
+   "_propertyType": "bool",
+   "values": {
+    "_": "false"
+   }
+  },
+  "LinkedSource": {
+   "_propertyType": "Content",
+   "values": {
+    "null": [
+     ""
+    ]
+   }
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "Script"
+   }
+  },
+  "ScriptGuid": {
+   "_propertyType": "string",
+   "values": {
+    "_": "{F337A0DA-0258-49F3-B8BB-0F54892E28F0}"
+   }
+  },
+  "Source": {
+   "_propertyType": "ProtectedString",
+   "values": {
+    "_": "script.Parent.MouseButton1Click:Connect(function()\n\tfor i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do\n\t\tif v.Name == \"ListItem\" then\n\t\t\tv:Destroy()\n\t\tend\n\tend\n\tscript.Parent.Parent.Parent.Visible = false\n\tscript.Parent.Parent.Parent.Parent.Main.Visible = true\nend)"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}

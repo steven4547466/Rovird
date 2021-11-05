@@ -1,0 +1,50 @@
+{
+ "className": "UISizeConstraint",
+ "name": "UISizeConstraint",
+ "referent": "RBXBCD89B8DC57E4258BAFA26E3B296112D",
+ "properties": {
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "MaxSize": {
+   "_propertyType": "Vector2",
+   "values": {
+    "X": [
+     "INF"
+    ],
+    "Y": [
+     "INF"
+    ]
+   }
+  },
+  "MinSize": {
+   "_propertyType": "Vector2",
+   "values": {
+    "X": [
+     "200"
+    ],
+    "Y": [
+     "100"
+    ]
+   }
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "UISizeConstraint"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}

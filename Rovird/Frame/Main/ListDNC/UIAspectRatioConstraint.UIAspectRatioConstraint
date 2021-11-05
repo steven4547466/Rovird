@@ -1,0 +1,46 @@
+{
+ "className": "UIAspectRatioConstraint",
+ "name": "UIAspectRatioConstraint",
+ "referent": "RBX94C008E712F345CC84C3D7B72634720B",
+ "properties": {
+  "AspectRatio": {
+   "_propertyType": "float",
+   "values": {
+    "_": "3"
+   }
+  },
+  "AspectType": {
+   "_propertyType": "token",
+   "values": {
+    "_": "0"
+   }
+  },
+  "DominantAxis": {
+   "_propertyType": "token",
+   "values": {
+    "_": "0"
+   }
+  },
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "UIAspectRatioConstraint"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}
