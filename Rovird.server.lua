@@ -120,7 +120,7 @@ function sendJob()
 			for k = 1, #v2 do
 				if v2[k] == nil then break end
 				if isLarge(v2[k]) then
-					print("Large found")
+					print("Large found, will be skipped")
 					table.insert(large, v2[k])
 					table.remove(v2, k)
 					k -= 1
@@ -247,7 +247,6 @@ function executeResults(results)
 						if r.isExternal == 0 then
 							plugin:OpenScript(lastUUIDs[uuid], f.line)
 						else
-							print(f)
 							print("Can't open external script. You may view it here: https://www.roblox.com/library/" .. tostring(r.assetId) .. " line number: " .. tostring(f.line))
 						end
 					end)
@@ -257,12 +256,6 @@ function executeResults(results)
 				ui.Frame.Info.Visible = true
 				-- Get more info
 			end)
-			--if #r.flags > 0 then
-			--	print("Results for " .. name .. " (".. getLocationInWorkspace(lastUUIDs[uuid]) .."): ")
-			--	print(lastUUIDs[uuid])
-			--	print(r)
-			--	print("---")
-			--end
 		end
 	end
 end
@@ -333,6 +326,11 @@ function topLevel(parent, toPost, curIndex, parentScript)
 					lastUUIDs[schema.UUID] = child
 					table.insert(toPost[curIndex], schema)
 					recurseChildren(child, schema)
+				else
+					local schema = {}
+					table.insert(toPost[curIndex], schema)
+					recurseChildren(child, schema)
+					if schema.Source == nil then table.remove(toPost[curIndex], #toPost[curIndex]) end
 				end
 			end
 		end)
@@ -343,10 +341,18 @@ function recurseChildren(parent, schema)
 	for _, child in ipairs(parent:GetChildren()) do
 		if child:IsA("LuaSourceContainer") and not child:IsA("CoreScript") then
 			if CollectionService:HasTag(child, doNotCheckTag) then continue end
-			local childSchema = {["Source"]=child.Source, ["Children"]={}, ["UUID"]=HttpService:GenerateGUID(false)}
-			lastUUIDs[childSchema.UUID] = child
-			table.insert(schema.Children, childSchema)
-			recurseChildren(child, childSchema)
+			if schema.Source == nil then
+				schema.Source = child.Source
+				schema.Children = {}
+				schema.UUID = HttpService:GenerateGUID(false)
+				lastUUIDs[schema.UUID] = child
+				recurseChildren(child, schema)
+			else
+				local childSchema = {["Source"]=child.Source, ["Children"]={}, ["UUID"]=HttpService:GenerateGUID(false)}
+				lastUUIDs[childSchema.UUID] = child
+				table.insert(schema.Children, childSchema)
+				recurseChildren(child, childSchema)
+			end
 		else
 			recurseChildren(child, schema)
 		end
