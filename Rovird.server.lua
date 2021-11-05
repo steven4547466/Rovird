@@ -131,7 +131,17 @@ function sendJob()
 	
 	for _, v in ipairs(chunked) do
 		for _, v2 in ipairs(v) do
-			table.insert(lastJobs, HttpService:JSONDecode(HttpService:PostAsync(baseUrl, HttpService:JSONEncode(v2))).jobId)
+			if #v2 == 0 then continue end
+			local res = HttpService:RequestAsync({["Url"]=baseUrl;["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			if res.StatusCode ~= 200 then
+				print("Posting job returned non-200 code: " .. tostring(res.StatusCode))
+				if res.StatusCode ~= 413 then
+					print("Message from server:")
+					print(res.Body)
+				end
+				continue
+			end
+			table.insert(lastJobs, HttpService:JSONDecode(res.Body).jobId)
 			if #v2 > 60 then task.wait(1) end
 		end
 	end
