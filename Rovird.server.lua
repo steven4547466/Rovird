@@ -275,6 +275,10 @@ end
 
 function backwardsParent(m, parents)
 	table.insert(parents, m.Name)
+	if m.Parent == nil then
+		table.insert(parents, "Deleted")
+		return
+	end
 	if m.Parent ~= game then
 		backwardsParent(m.Parent, parents)
 	end
@@ -284,6 +288,8 @@ function getLocationInWorkspace(m, result)
 	local parents = {}
 	if m == nil then
 		return "External " .. result.isExternal
+	elseif m.Parent == nil then
+		return "Deleted"
 	else
 		backwardsParent(m, parents)
 	end
