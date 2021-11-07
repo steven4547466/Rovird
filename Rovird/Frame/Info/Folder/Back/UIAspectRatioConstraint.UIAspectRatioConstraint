@@ -1,7 +1,7 @@
 {
  "className": "UIAspectRatioConstraint",
  "name": "UIAspectRatioConstraint",
- "referent": "RBX782E8DDE022841BF9EF43727575FDA06",
+ "referent": "RBXF4C87B11F6374E2C9A3C00B0E7723A50",
  "properties": {
   "AspectRatio": {
    "_propertyType": "float",

@@ -22,6 +22,8 @@ local ui = nil
 
 local doNotCheckTag = "Rovird_DoNotCheck"
 
+local resultsLocked = false
+
 local info = {
 	InternalScanned=0;
 	ExternalScanned=0;
@@ -33,8 +35,8 @@ function getBaseUrl()
 	return plugin:GetSetting("baseUrl")
 end
 
-function getJobUrl()
-	return getBaseUrl().."jobs"
+function getUrl(ext)
+	return getBaseUrl()..ext
 end
 
 function trim(s)
@@ -132,6 +134,9 @@ function sendJob()
 	
 	local large = {}
 	
+	ui.Frame.Main.Results.BackgroundColor3 = Color3.new(0.329412, 0.329412, 0.329412)
+	resultsLocked = true
+	
 	for i = 1, #chunked do
 		local v = chunked[i]
 		for j = 1, #v do
@@ -151,7 +156,7 @@ function sendJob()
 	for _, v in ipairs(chunked) do
 		for _, v2 in ipairs(v) do
 			if #v2 == 0 then continue end
-			local res = HttpService:RequestAsync({["Url"]=getJobUrl();["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			local res = HttpService:RequestAsync({["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
 			if res.StatusCode ~= 200 then
 				print("Posting job returned non-200 code: " .. tostring(res.StatusCode))
 				if res.StatusCode ~= 413 then
@@ -164,16 +169,44 @@ function sendJob()
 			if #v2 > 60 then task.wait(1) end
 		end
 	end
+	while true do
+		local res = HttpService:RequestAsync({["Url"]=getUrl("jobs-status").."?jobIds="..table.concat(lastJobs,",");["Method"]="GET"})
+		if res.StatusCode ~= 200 then
+			ui.Frame.Main.Results.BackgroundColor3 = Color3.new(1,0,0)
+			print("Failed to get job status")
+			print("Message from server:")
+			print(res.Body)
+			break
+		else
+			local flag = false
+			
+			for id, value in pairs(HttpService:JSONDecode(res.Body)) do
+				if value == 0 then
+					flag = true
+					break
+				end
+			end
+			
+			if not flag then
+				resultsLocked = false
+				ui.Frame.Main.Results.BackgroundColor3 = Color3.new(0, 1, 0)
+				break
+			end
+		end
+		
+		task.wait(0.5)
+	end
 end
 
 function getResults()
+	if resultsLocked then return end
 	for k in pairs(info) do
 		updateInfo(k, 0)
 	end
 	local toRemove = {}
 	if #lastJobs > 0 then
 		for i, jobId in ipairs(lastJobs) do
-			local res = HttpService:RequestAsync({["Url"]=getJobUrl().."?jobId="..jobId;["Method"]="GET"})
+			local res = HttpService:RequestAsync({["Url"]=getUrl("jobs").."?jobId="..jobId;["Method"]="GET"})
 			if res.StatusCode ~= 200 then
 				print("Job Id " .. jobId .. " returned non-200 code: " .. tostring(res.StatusCode))
 				print("Message from server:")
