@@ -7,7 +7,11 @@ local openUiButton = toolbar:CreateButton("Rovird Plugin GUI", "Flags scripts th
 
 openUiButton.ClickableWhenViewportHidden = true
 
-local baseUrl = "https://rovird.xyz/jobs"
+local hasRunBefore = plugin:GetSetting("hasRunBefore")
+if not hasRunBefore then
+	plugin:SetSetting("hasRunBefore", true)
+	plugin:SetSetting("baseUrl", "https://rovird.xyz/")
+end
 
 local lastJobs = {}
 local lastUUIDs = {}
@@ -25,11 +29,19 @@ local info = {
 	TotalFlags=0;
 }
 
+function getBaseUrl()
+	return plugin:GetSetting("baseUrl")
+end
+
+function getJobUrl()
+	return getBaseUrl().."jobs"
+end
+
 function trim(s)
 	return s:gsub("^%s+", ""):gsub("%s+$", "")
 end
 
-function UpdateInfo(prop, newValue)
+function updateInfo(prop, newValue)
 	local label = ui.Frame.Results.Folder.OverallInfo:FindFirstChild(prop)
 	if label then 
 		label.Text = trim(label.Text:gsub("%d", ""))
@@ -62,7 +74,14 @@ function openUi()
 		frame.Main.SendJob.MouseButton1Click:Connect(sendJob)
 		frame.Main.Results.MouseButton1Click:Connect(getResults)
 		frame.Main.ListDNC.MouseButton1Click:Connect(listDNC)
+		frame.Main.Options.MouseButton1Click:Connect(openOptions)
 	end
+end
+
+function openOptions()
+	ui.Frame.Options.BaseUrl.Text = getBaseUrl()
+	ui.Frame.Main.Visible = false
+	ui.Frame.Options.Visible = true
 end
 
 function listDNC()
@@ -99,7 +118,7 @@ end
 
 function sendJob()
 	for k in pairs(info) do
-		UpdateInfo(k, 0)
+		updateInfo(k, 0)
 	end
 	table.clear(lastJobs)
 	table.clear(lastJobs)
@@ -132,7 +151,7 @@ function sendJob()
 	for _, v in ipairs(chunked) do
 		for _, v2 in ipairs(v) do
 			if #v2 == 0 then continue end
-			local res = HttpService:RequestAsync({["Url"]=baseUrl;["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			local res = HttpService:RequestAsync({["Url"]=getJobUrl();["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
 			if res.StatusCode ~= 200 then
 				print("Posting job returned non-200 code: " .. tostring(res.StatusCode))
 				if res.StatusCode ~= 413 then
@@ -149,12 +168,12 @@ end
 
 function getResults()
 	for k in pairs(info) do
-		UpdateInfo(k, 0)
+		updateInfo(k, 0)
 	end
 	local toRemove = {}
 	if #lastJobs > 0 then
 		for i, jobId in ipairs(lastJobs) do
-			local res = HttpService:RequestAsync({["Url"]=baseUrl.."?jobId="..jobId;["Method"]="GET"})
+			local res = HttpService:RequestAsync({["Url"]=getJobUrl().."?jobId="..jobId;["Method"]="GET"})
 			if res.StatusCode ~= 200 then
 				print("Job Id " .. jobId .. " returned non-200 code: " .. tostring(res.StatusCode))
 				print("Message from server:")
@@ -202,12 +221,12 @@ function executeResults(results)
 			button.TextSize = 22
 			button.UIAspectRatioConstraint.AspectRatio = 4
 			button.Parent = ui.Frame.Results
-			UpdateInfo("TotalFlags", info.TotalFlags + #r.flags)
-			UpdateInfo("TotalScanned", info.TotalScanned + 1)
+			updateInfo("TotalFlags", info.TotalFlags + #r.flags)
+			updateInfo("TotalScanned", info.TotalScanned + 1)
 			if r.isExternal > 0 then
-				UpdateInfo("ExternalScanned", info.ExternalScanned + 1)
+				updateInfo("ExternalScanned", info.ExternalScanned + 1)
 			else
-				UpdateInfo("InternalScanned", info.InternalScanned + 1)
+				updateInfo("InternalScanned", info.InternalScanned + 1)
 			end
 			if #r.flags > 0 then
 				button.BackgroundColor3 = Color3.new(1,0,0)

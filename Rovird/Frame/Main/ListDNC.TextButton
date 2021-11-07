@@ -1,7 +1,7 @@
 {
  "className": "TextButton",
  "name": "ListDNC",
- "referent": "RBX9EEE26D0BFB241F082FD80177A2BC297",
+ "referent": "RBX72E40265FDB345F8B54D8057F525780E",
  "properties": {
   "Active": {
    "_propertyType": "bool",
@@ -243,7 +243,7 @@
   "LayoutOrder": {
    "_propertyType": "int",
    "values": {
-    "_": "2"
+    "_": "3"
    }
   },
   "MaxVisibleGraphemes": {

@@ -1,0 +1,54 @@
+{
+ "className": "Script",
+ "name": "Script",
+ "referent": "RBX6AEF16A0877D4178AB13638D6BF206F5",
+ "properties": {
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Disabled": {
+   "_propertyType": "bool",
+   "values": {
+    "_": "false"
+   }
+  },
+  "LinkedSource": {
+   "_propertyType": "Content",
+   "values": {
+    "null": [
+     ""
+    ]
+   }
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "Script"
+   }
+  },
+  "ScriptGuid": {
+   "_propertyType": "string",
+   "values": {
+    "_": "{5F9B69BB-6E12-4F25-96F8-ABCB711E175D}"
+   }
+  },
+  "Source": {
+   "_propertyType": "ProtectedString",
+   "values": {
+    "_": "function endsWith(str, ending)\n\treturn ending == \"\" or str:sub(-#ending) == ending\nend\n\nscript.Parent.FocusLost:Connect(function(enterPressed, inputThatCausedFocusLost)\n\tif enterPressed then\n\t\tif not endsWith(script.Parent.Text, \"/\") then\n\t\t\tscript.Parent.Text ..= \"/\"\n\t\tend\n\t\tplugin:SetSetting(\"baseUrl\", script.Parent.Text)\n\tend\nend)"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}
