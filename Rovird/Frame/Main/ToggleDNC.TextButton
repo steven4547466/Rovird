@@ -1,7 +1,7 @@
 {
  "className": "TextButton",
  "name": "ToggleDNC",
- "referent": "RBX9D11B9100FCC47EFAA5CDF3C2ED10694",
+ "referent": "RBX4D8889E0E5CE49EFA2CE81AA75362191",
  "properties": {
   "Active": {
    "_propertyType": "bool",

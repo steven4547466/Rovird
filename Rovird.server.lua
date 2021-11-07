@@ -148,6 +148,9 @@ function sendJob()
 end
 
 function getResults()
+	for k in pairs(info) do
+		UpdateInfo(k, 0)
+	end
 	local toRemove = {}
 	if #lastJobs > 0 then
 		for i, jobId in ipairs(lastJobs) do

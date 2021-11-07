@@ -1,7 +1,7 @@
 {
  "className": "TextLabel",
  "name": "TotalFlags",
- "referent": "RBX7D5B9C88656241C488D5931CC6B323FD",
+ "referent": "RBXE1BADFAE3CC14A86A718EB87B61DC5C5",
  "properties": {
   "Active": {
    "_propertyType": "bool",
