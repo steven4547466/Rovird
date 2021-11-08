@@ -132,26 +132,8 @@ function sendJob()
 		table.insert(chunked, chunk(v, 10))
 	end
 	
-	local large = {}
-	
 	ui.Frame.Main.Results.BackgroundColor3 = Color3.new(0.329412, 0.329412, 0.329412)
 	resultsLocked = true
-	
-	for i = 1, #chunked do
-		local v = chunked[i]
-		for j = 1, #v do
-			local v2 = v[j]
-			for k = 1, #v2 do
-				if v2[k] == nil then break end
-				if isLarge(v2[k]) then
-					print("Large found, will be skipped")
-					table.insert(large, v2[k])
-					table.remove(v2, k)
-					k -= 1
-				end
-			end
-		end
-	end
 	
 	for _, v in ipairs(chunked) do
 		for _, v2 in ipairs(v) do
@@ -328,7 +310,7 @@ end
 function backwardsParent(m, parents)
 	table.insert(parents, m.Name)
 	if m.Parent == nil then
-		table.insert(parents, "Deleted")
+		table.insert(parents, "(Deleted)")
 		return
 	end
 	if m.Parent ~= game then
@@ -353,14 +335,6 @@ function getLocationInWorkspace(m, result)
 		end
 	end
 	return hierarchy
-end
-
-function isLarge(data)
-	local encoded = HttpService:JSONEncode(data)
-	if string.len(encoded) > 1024000 then
-		return true
-	end 
-	return false
 end
 
 function getChunk(arr, startIndex, endIndex)
@@ -390,6 +364,7 @@ function topLevel(parent, toPost, curIndex, parentScript)
 	end
 	for _, dataModel in ipairs(parent:GetChildren()) do
 		pcall(function()
+			if dataModel.Name == "CoreGui" then return end
 			for _, child in ipairs(dataModel:GetChildren()) do
 				if child:IsA("LuaSourceContainer") and not child:IsA("CoreScript") then
 					if CollectionService:HasTag(child, doNotCheckTag) then continue end

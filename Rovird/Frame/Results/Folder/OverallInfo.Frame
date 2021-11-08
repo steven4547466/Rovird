@@ -1,7 +1,7 @@
 {
  "className": "Frame",
  "name": "OverallInfo",
- "referent": "RBX25981244E32E4770852B34B33C3ECB55",
+ "referent": "RBXBD0B4CD54DE3452380E4E0D19E98A767",
  "properties": {
   "Active": {
    "_propertyType": "bool",

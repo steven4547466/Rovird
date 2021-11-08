@@ -1,7 +1,7 @@
 {
  "className": "TextButton",
  "name": "OnlyFlagged",
- "referent": "RBX8DCA75079570413892BC9ABB5921BBD7",
+ "referent": "RBXFA75EF629CB14DAF85F9431AF0DA1BCB",
  "properties": {
   "Active": {
    "_propertyType": "bool",

@@ -1,7 +1,7 @@
 {
  "className": "ScrollingFrame",
  "name": "DNCList",
- "referent": "RBX982F58FE8C9244C491D08BC920532A6E",
+ "referent": "RBX9B21862C40C541FCAFE2426791DFB1F0",
  "properties": {
   "Active": {
    "_propertyType": "bool",
