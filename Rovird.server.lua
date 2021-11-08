@@ -136,9 +136,14 @@ function sendJob()
 	resultsLocked = true
 	
 	for _, v in ipairs(chunked) do
+		if down then break end
 		for _, v2 in ipairs(v) do
 			if #v2 == 0 then continue end
-			local res = HttpService:RequestAsync({["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			local success, res = pcall(HttpService.RequestAsync, HttpService, {["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			if not success then
+				ui.Frame.Main.Results.BackgroundColor3 = Color3.new(1,0,0)
+				error("Connection to " .. getBaseUrl() .. " was refused.")
+			end
 			if res.StatusCode ~= 200 then
 				print("Posting job returned non-200 code: " .. tostring(res.StatusCode))
 				if res.StatusCode ~= 413 then
