@@ -1,7 +1,7 @@
 {
  "className": "TextLabel",
  "name": "TotalScanned",
- "referent": "RBX4142FF2EE1E7437EA829AE7184759A37",
+ "referent": "RBXCF8BC29E35D94A889A6EE538810FFC3A",
  "properties": {
   "Active": {
    "_propertyType": "bool",

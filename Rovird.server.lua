@@ -3,7 +3,7 @@ local Selection = game:GetService("Selection")
 local CollectionService = game:GetService("CollectionService")
 
 local toolbar = plugin:CreateToolbar("Rovird")
-local openUiButton = toolbar:CreateButton("Rovird Plugin GUI", "Flags scripts that could possibly contain or require viruses", "rbxassetid://4458901886")
+local openUiButton = toolbar:CreateButton("Rovird Plugin GUI", "Flags scripts that could possibly contain or require viruses", "rbxassetid://7970846461")
 
 openUiButton.ClickableWhenViewportHidden = true
 
@@ -136,7 +136,6 @@ function sendJob()
 	resultsLocked = true
 	
 	for _, v in ipairs(chunked) do
-		if down then break end
 		for _, v2 in ipairs(v) do
 			if #v2 == 0 then continue end
 			local success, res = pcall(HttpService.RequestAsync, HttpService, {["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})

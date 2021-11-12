@@ -1,7 +1,7 @@
 {
  "className": "TextButton",
  "name": "Button",
- "referent": "RBXCD448C4E9076465C9AB308BE2A9B59DE",
+ "referent": "RBXFF2F8E262D8F4847BDA056373076C310",
  "properties": {
   "Active": {
    "_propertyType": "bool",
