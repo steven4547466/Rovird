@@ -152,7 +152,7 @@ function sendJob()
 				continue
 			end
 			table.insert(lastJobs, HttpService:JSONDecode(res.Body).jobId)
-			if #v2 > 60 then task.wait(1) end
+			if #v > 60 then task.wait(1) end
 		end
 	end
 	while true do

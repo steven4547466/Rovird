@@ -1,7 +1,7 @@
 {
  "className": "ScrollingFrame",
  "name": "Info",
- "referent": "RBX30CB9AC3FA1247A89CA5C2198AA50F16",
+ "referent": "RBXF97C9D1E6D1348F092ED6E8B5769AF6A",
  "properties": {
   "Active": {
    "_propertyType": "bool",

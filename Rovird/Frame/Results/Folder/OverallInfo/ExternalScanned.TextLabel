@@ -1,7 +1,7 @@
 {
  "className": "TextLabel",
  "name": "ExternalScanned",
- "referent": "RBX5ECC23B73D2E485EBFC10CAFE22A9DB5",
+ "referent": "RBX63CAE71A64FD433C9CB575FC09807F06",
  "properties": {
   "Active": {
    "_propertyType": "bool",
