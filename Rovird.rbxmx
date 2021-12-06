@@ -2,14 +2,14 @@
 	<Meta name="ExplicitAutoJoints">true</Meta>
 	<External>null</External>
 	<External>nil</External>
-	<Item class="Folder" referent="RBXC38E04AF2D9348B5A7E00BC88117A2BB">
+	<Item class="Folder" referent="RBXB158EEEBF1534DEC9BE62E6A2396BC3A">
 		<Properties>
 			<BinaryString name="AttributesSerialize"></BinaryString>
 			<string name="Name">Rovird</string>
 			<int64 name="SourceAssetId">-1</int64>
 			<BinaryString name="Tags"></BinaryString>
 		</Properties>
-		<Item class="TextButton" referent="RBXA9923138324E4303A0706BC448F54940">
+		<Item class="TextButton" referent="RBX2EF58466D4654B4FA6BED6172781761F">
 			<Properties>
 				<bool name="Active">true</bool>
 				<Vector2 name="AnchorPoint">
@@ -89,7 +89,7 @@
 				<bool name="Visible">true</bool>
 				<int name="ZIndex">1</int>
 			</Properties>
-			<Item class="UIAspectRatioConstraint" referent="RBX0E0EFD2367F84B11B5ED4DF784A3228C">
+			<Item class="UIAspectRatioConstraint" referent="RBXEFE15A6D28664F56A3088B7869C099B6">
 				<Properties>
 					<float name="AspectRatio">3</float>
 					<token name="AspectType">0</token>
@@ -100,7 +100,7 @@
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="UISizeConstraint" referent="RBX369259B6571E42E39317070D18638FF9">
+			<Item class="UISizeConstraint" referent="RBX6E3E739FBB064C258073E3719C29B10B">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<Vector2 name="MaxSize">
@@ -116,7 +116,7 @@
 					<BinaryString name="Tags"></BinaryString>
 				</Properties>
 			</Item>
-			<Item class="UICorner" referent="RBX2C7F9A1BD51A4580B6299F109A4640EF">
+			<Item class="UICorner" referent="RBX717F2E81A88A42159718F07B69E52FE6">
 				<Properties>
 					<BinaryString name="AttributesSerialize"></BinaryString>
 					<UDim name="CornerRadius">
@@ -129,16 +129,18 @@
 				</Properties>
 			</Item>
 		</Item>
-		<Item class="Script" referent="RBX191CD84EE3D347E29BCDDD81B912D55B">
+		<Item class="Script" referent="RBX580258025F184224878575FEFD4B9580">
 			<Properties>
 				<BinaryString name="AttributesSerialize"></BinaryString>
 				<bool name="Disabled">false</bool>
 				<Content name="LinkedSource"><null></null></Content>
 				<string name="Name">Rovird</string>
-				<string name="ScriptGuid">{64805FA4-3923-423D-BB9A-59FA41E6CD7F}</string>
+				<string name="ScriptGuid">{BA856BFB-E0BA-4F35-B18C-64309669CE8A}</string>
 				<ProtectedString name="Source"><![CDATA[local HttpService = game:GetService("HttpService")
 local Selection = game:GetService("Selection")
 local CollectionService = game:GetService("CollectionService")
+local JsonLua = require(script.JsonLua.JsonLua)
+
 
 local toolbar = plugin:CreateToolbar("Rovird")
 local openUiButton = toolbar:CreateButton("Rovird Plugin GUI", "Flags scripts that could possibly contain or require viruses", "rbxassetid://7970846461")
@@ -276,7 +278,20 @@ function sendJob()
 	for _, v in ipairs(chunked) do
 		for _, v2 in ipairs(v) do
 			if #v2 == 0 then continue end
-			local success, res = pcall(HttpService.RequestAsync, HttpService, {["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=HttpService:JSONEncode(v2),["Headers"]={["Content-Type"]="application/json"}})
+			local parseSuccess, json = pcall(HttpService.JSONEncode, HttpService, v2)
+			if not parseSuccess then
+				local secondaryParseSuccess, res = pcall(JsonLua.encode, v2)
+				if not secondaryParseSuccess then
+					warn("Error while encoding the following hierarchies:")
+					for _, v3 in ipairs(v2) do
+						print(lastUUIDs[v3.UUID])
+					end
+					warn("It will be skipped. You can try downloading this hierarchy as a file and uploading it directly to the website.")
+					continue
+				end
+				json = res
+			end			
+			local success, res = pcall(HttpService.RequestAsync, HttpService, {["Url"]=getUrl("jobs");["Method"]="POST";["Body"]=json,["Headers"]={["Content-Type"]="application/json"}})
 			if not success then
 				ui.Frame.Main.Results.BackgroundColor3 = Color3.new(1,0,0)
 				error("Connection to " .. getBaseUrl() .. " was refused.")
@@ -551,7 +566,7 @@ openUiButton.Click:Connect(openUi)]]></ProtectedString>
 				<int64 name="SourceAssetId">-1</int64>
 				<BinaryString name="Tags"></BinaryString>
 			</Properties>
-			<Item class="Frame" referent="RBXC7E6B92EB8C843BFA5E919EC8A14C8AA">
+			<Item class="Frame" referent="RBX8299DA0D52694E7494A97D8B0DDF4CA8">
 				<Properties>
 					<bool name="Active">false</bool>
 					<Vector2 name="AnchorPoint">
@@ -605,7 +620,7 @@ openUiButton.Click:Connect(openUi)]]></ProtectedString>
 					<bool name="Visible">true</bool>
 					<int name="ZIndex">1</int>
 				</Properties>
-				<Item class="ScrollingFrame" referent="RBXF97C9D1E6D1348F092ED6E8B5769AF6A">
+				<Item class="ScrollingFrame" referent="RBXD19A1FCA155347D2A093216189F848AC">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -685,14 +700,14 @@ openUiButton.Click:Connect(openUi)]]></ProtectedString>
 						<bool name="Visible">false</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="Folder" referent="RBX1C70B1E51CFB4376A34AAA92CB05F919">
+					<Item class="Folder" referent="RBX901AD103018049A98D50B0FBA3253B08">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<string name="Name">Folder</string>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
-						<Item class="TextButton" referent="RBX5F6E02FF302449779BCBC555F62B3BA8">
+						<Item class="TextButton" referent="RBXEB2EB30E59F2456F952836666DC9ADC0">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -772,13 +787,13 @@ openUiButton.Click:Connect(openUi)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Script" referent="RBXB527C000F1EE459CB851D2E7BCF1463B">
+							<Item class="Script" referent="RBX18D1153D102748D28D003B0E75AEBB2D">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<bool name="Disabled">false</bool>
 									<Content name="LinkedSource"><null></null></Content>
 									<string name="Name">Script</string>
-									<string name="ScriptGuid">{8B607B56-5F48-44E8-BA92-E8A8CA53D684}</string>
+									<string name="ScriptGuid">{60DCE707-86CC-4273-BF69-91DD0DA26DBC}</string>
 									<ProtectedString name="Source"><![CDATA[script.Parent.MouseButton1Click:Connect(function()
 	for i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do
 		if v.Name == "ListItem" then
@@ -792,7 +807,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UIAspectRatioConstraint" referent="RBX3D0ED773EB6042B1ADC1987498AB450D">
+							<Item class="UIAspectRatioConstraint" referent="RBX2EFCD46CDDC94381860C82FF9A0C3948">
 								<Properties>
 									<float name="AspectRatio">1</float>
 									<token name="AspectType">0</token>
@@ -805,7 +820,7 @@ end)]]></ProtectedString>
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIGridLayout" referent="RBX737CA7EDADEF4136BEA1A46B24EF1CA1">
+					<Item class="UIGridLayout" referent="RBXC14DD19BA1B64C7496937EF2A5A5CC15">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<UDim2 name="CellPadding">
@@ -830,13 +845,13 @@ end)]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 							<token name="VerticalAlignment">1</token>
 						</Properties>
-						<Item class="Script" referent="RBX1BA2A08E119F40F0A10CEA78D4EC5708">
+						<Item class="Script" referent="RBXC121B08616C34ECD85C85CFE73065D22">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{AACF6C7F-8066-4E60-BEFD-CBE15635877E}</string>
+								<string name="ScriptGuid">{2591D4BA-D4C2-4039-B620-A3C2AA4D6362}</string>
 								<ProtectedString name="Source"><![CDATA[script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)
 script.Parent:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) 
@@ -847,7 +862,7 @@ end)]]></ProtectedString>
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ScrollingFrame" referent="RBXF2C86D8591AA494780328238DA0D73B4">
+				<Item class="ScrollingFrame" referent="RBXCE7F4A654FE14B299E1110B9CFA5F5B6">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -927,14 +942,14 @@ end)]]></ProtectedString>
 						<bool name="Visible">false</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="Folder" referent="RBXBDCD31A440FE4188BF64EF12AEBE6F85">
+					<Item class="Folder" referent="RBXB70A0134D5E94E7B9DBF5FC93CEDDCD9">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<string name="Name">Folder</string>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
-						<Item class="TextButton" referent="RBX8A3C0B2D499C4EE3BC8BF313BB83849A">
+						<Item class="TextButton" referent="RBX36249FD434124DDCB754472F84FE3C11">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -1014,7 +1029,7 @@ end)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="ImageLabel" referent="RBX7BC475C7C1F7450FBE1FEE36F7A27A18">
+							<Item class="ImageLabel" referent="RBX49F4F64C3BE34D5087744B34D216264F">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -1101,7 +1116,7 @@ end)]]></ProtectedString>
 									<bool name="Visible">true</bool>
 									<int name="ZIndex">1</int>
 								</Properties>
-								<Item class="UIAspectRatioConstraint" referent="RBXB75600E80EAF4968A99BA77191DFA7CD">
+								<Item class="UIAspectRatioConstraint" referent="RBX2FB421CC8D604F46B8B5821ECD486E06">
 									<Properties>
 										<float name="AspectRatio">1</float>
 										<token name="AspectType">0</token>
@@ -1113,13 +1128,13 @@ end)]]></ProtectedString>
 									</Properties>
 								</Item>
 							</Item>
-							<Item class="Script" referent="RBX0AE252D4AF6D4A7CB8D48CBEF846DE92">
+							<Item class="Script" referent="RBX259D6669BC144B49869DE7147D3CA0BE">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<bool name="Disabled">false</bool>
 									<Content name="LinkedSource"><null></null></Content>
 									<string name="Name">Script</string>
-									<string name="ScriptGuid">{8B927278-D02F-42AF-B8A0-475250FB2904}</string>
+									<string name="ScriptGuid">{FC2DB897-8A5B-41FD-B99D-57B94B39267B}</string>
 									<ProtectedString name="Source"><![CDATA[script.Parent.MouseButton1Click:Connect(function()
 	for i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do
 		if v.Name == "ListItem" then
@@ -1133,7 +1148,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UIAspectRatioConstraint" referent="RBX367FF7CAF66949F7B5DFC03D360E4E57">
+							<Item class="UIAspectRatioConstraint" referent="RBX8C4C170032C34C4CA4699ADBF7AB3756">
 								<Properties>
 									<float name="AspectRatio">1</float>
 									<token name="AspectType">0</token>
@@ -1144,7 +1159,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UICorner" referent="RBXB627780E93BA4BBD94DDF8FBDBD6BF91">
+							<Item class="UICorner" referent="RBX2491DFE0A6B54C3BA9A0C3E210E4A6FE">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<UDim name="CornerRadius">
@@ -1157,7 +1172,7 @@ end)]]></ProtectedString>
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="Frame" referent="RBXDB539AA39A0C4009ABADC150863B0FE4">
+						<Item class="Frame" referent="RBXDAE52517D4FC49389445C4F28901A099">
 							<Properties>
 								<bool name="Active">false</bool>
 								<Vector2 name="AnchorPoint">
@@ -1211,7 +1226,7 @@ end)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="TextLabel" referent="RBX7F65EDBDD3AB4DA09A7D2814877BAC80">
+							<Item class="TextLabel" referent="RBX8A36155F7BF44CF8A05B71C612F9C5D9">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -1288,7 +1303,7 @@ end)]]></ProtectedString>
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextLabel" referent="RBX63CAE71A64FD433C9CB575FC09807F06">
+							<Item class="TextLabel" referent="RBX117D9CC087964EA0935CE0B9983F40A8">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -1365,7 +1380,7 @@ end)]]></ProtectedString>
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextLabel" referent="RBX22258ED2379442BA89864520C33B7102">
+							<Item class="TextLabel" referent="RBX3A8D179C15A748539E38B504A7C8926F">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -1442,7 +1457,7 @@ end)]]></ProtectedString>
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="TextLabel" referent="RBX362F1DD3DF784F37AE009C861CEC57FF">
+							<Item class="TextLabel" referent="RBXDBE30BCB14D243AE9E69F2EEE03D0228">
 								<Properties>
 									<bool name="Active">false</bool>
 									<Vector2 name="AnchorPoint">
@@ -1519,7 +1534,7 @@ end)]]></ProtectedString>
 									<int name="ZIndex">1</int>
 								</Properties>
 							</Item>
-							<Item class="UICorner" referent="RBXD9A1FB9D8AE040EB9FE96A6905BFE7C2">
+							<Item class="UICorner" referent="RBXE37DC3531AE4452BA68DD57F45F477DE">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<UDim name="CornerRadius">
@@ -1532,7 +1547,7 @@ end)]]></ProtectedString>
 								</Properties>
 							</Item>
 						</Item>
-						<Item class="TextButton" referent="RBX0162ED133CB0484AA172245047112F83">
+						<Item class="TextButton" referent="RBX13469739DFD44889AC5F9D1E463BB4EA">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -1612,13 +1627,13 @@ end)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Script" referent="RBXA689B73FC5814800BB6CFFD6E8A6CBEE">
+							<Item class="Script" referent="RBX3BFB7B5C680F4830B7610EFF6C40D0A4">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<bool name="Disabled">false</bool>
 									<Content name="LinkedSource"><null></null></Content>
 									<string name="Name">Script</string>
-									<string name="ScriptGuid">{79B0DC2E-876F-45D8-AA67-EDE1BFDF67FE}</string>
+									<string name="ScriptGuid">{FD9579D4-03CB-4FA2-BED8-99578D448C44}</string>
 									<ProtectedString name="Source"><![CDATA[script.Parent.MouseButton1Click:Connect(function()
 	for i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do
 		if v.Name == "ListItem" then
@@ -1632,7 +1647,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UIAspectRatioConstraint" referent="RBX6B6AAF407642458FAC72A04E88D2DBB0">
+							<Item class="UIAspectRatioConstraint" referent="RBX6B72D766F27241258B7BF6CAFAAC1619">
 								<Properties>
 									<float name="AspectRatio">1</float>
 									<token name="AspectType">0</token>
@@ -1645,7 +1660,7 @@ end)]]></ProtectedString>
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIGridLayout" referent="RBXCDF08E69257F447191FCEF6B09A2BC63">
+					<Item class="UIGridLayout" referent="RBX02C0195B39A64C23B3B5684E072F8B49">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<UDim2 name="CellPadding">
@@ -1670,13 +1685,13 @@ end)]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 							<token name="VerticalAlignment">1</token>
 						</Properties>
-						<Item class="Script" referent="RBXE06C683C9A0149E9B90C299B85D49367">
+						<Item class="Script" referent="RBX1522C974CB0F40ACB4BAE7AE048BE16D">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{A58CE8AF-57B0-44FF-A6B5-1EEF405BFE45}</string>
+								<string name="ScriptGuid">{4C6A7E53-5ED3-49B6-AD40-A9F07260B210}</string>
 								<ProtectedString name="Source"><![CDATA[script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)
 script.Parent:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) 
@@ -1687,7 +1702,7 @@ end)]]></ProtectedString>
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ScrollingFrame" referent="RBX14C690495BE14824BBFD4A7116EA6913">
+				<Item class="ScrollingFrame" referent="RBXF15454DB5E8849F98059FF25AB8B2B10">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -1767,14 +1782,14 @@ end)]]></ProtectedString>
 						<bool name="Visible">false</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="Folder" referent="RBX73CE488B474446C586BA1957510A1EC6">
+					<Item class="Folder" referent="RBX5D036ABEAE5C45B1B3370CBDBD6E749C">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<string name="Name">Folder</string>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
-						<Item class="TextButton" referent="RBX9FF63BCF5C014362802470D934DA2075">
+						<Item class="TextButton" referent="RBXD7DCB56238B6486E8213D924B0164B94">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -1854,13 +1869,13 @@ end)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Script" referent="RBXC19B7D43FC3E4149B4A60156F48817D5">
+							<Item class="Script" referent="RBX0D34BFA0DDA34E23BF6F854FFEF7E2C6">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<bool name="Disabled">false</bool>
 									<Content name="LinkedSource"><null></null></Content>
 									<string name="Name">Script</string>
-									<string name="ScriptGuid">{12B49BC2-B33A-45EE-9EE0-76CF5C420FBA}</string>
+									<string name="ScriptGuid">{4DF19063-FFC1-403D-97EA-40CFD9C1ECB1}</string>
 									<ProtectedString name="Source"><![CDATA[script.Parent.MouseButton1Click:Connect(function()
 	for i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do
 		if v.Name == "ListItem" then
@@ -1874,7 +1889,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UIAspectRatioConstraint" referent="RBX2D06F0A5BA1C4400A086ADF36ED23E9C">
+							<Item class="UIAspectRatioConstraint" referent="RBXC73B83D50FCD4156A112B099C2A0B824">
 								<Properties>
 									<float name="AspectRatio">1</float>
 									<token name="AspectType">0</token>
@@ -1887,7 +1902,7 @@ end)]]></ProtectedString>
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIGridLayout" referent="RBX53DE7F4539124ABE91CADFFDE097AF17">
+					<Item class="UIGridLayout" referent="RBXFD04305D26DA4E2D8D2B26B139342B45">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<UDim2 name="CellPadding">
@@ -1912,13 +1927,13 @@ end)]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 							<token name="VerticalAlignment">1</token>
 						</Properties>
-						<Item class="Script" referent="RBX140E7EE86E0C4188A13CE4BF286275FC">
+						<Item class="Script" referent="RBX1EE00C2B395C40258A5EB49FBE6EE08D">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{703D82B8-E062-41AF-A365-75AA0D5CA1B4}</string>
+								<string name="ScriptGuid">{858E8A15-1D7D-4AF5-9B01-5DC3D4E5800F}</string>
 								<ProtectedString name="Source"><![CDATA[script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)
 script.Parent:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) 
@@ -1928,7 +1943,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextBox" referent="RBX783BEE42067F4C16B77ABC250A663F70">
+					<Item class="TextBox" referent="RBX5082E7B4C05A4F59A6647B9826A0FF08">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2014,7 +2029,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UIAspectRatioConstraint" referent="RBX368F0D699E984909A6224DF559E84651">
+						<Item class="UIAspectRatioConstraint" referent="RBX18D578AD97EE46DD9B469B07A89CDBDA">
 							<Properties>
 								<float name="AspectRatio">4</float>
 								<token name="AspectType">0</token>
@@ -2025,7 +2040,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UICorner" referent="RBX0FF8C76D7E024203988C370B57B931C2">
+						<Item class="UICorner" referent="RBXD943395334B44FFDBCB2F223608C5B79">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2037,7 +2052,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBX8C7F1C351E9344ECAB91C1F5C89F3182">
+						<Item class="UISizeConstraint" referent="RBXABB3CF3C61D04EF19692C2C4AD7B1E0B">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2053,13 +2068,13 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="Script" referent="RBX6BF49C7CE2154A65A943A2F7E9DB13A8">
+						<Item class="Script" referent="RBX0D43C90B9E0F4FCA973F47AA41B4E241">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{5F9B69BB-6E12-4F25-96F8-ABCB711E175D}</string>
+								<string name="ScriptGuid">{1F667437-ABF6-4907-8231-E95AC476A147}</string>
 								<ProtectedString name="Source"><![CDATA[function endsWith(str, ending)
 	return ending == "" or str:sub(-#ending) == ending
 end
@@ -2078,7 +2093,7 @@ end)]]></ProtectedString>
 						</Item>
 					</Item>
 				</Item>
-				<Item class="ScrollingFrame" referent="RBX5AC62482405F409F8A427AF0BF43AAEE">
+				<Item class="ScrollingFrame" referent="RBX09F38CE3362B420FA9E17602A156511A">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -2158,7 +2173,7 @@ end)]]></ProtectedString>
 						<bool name="Visible">true</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="TextButton" referent="RBXDCEDDDFE66A64E099CB6FA73341A1EF3">
+					<Item class="TextButton" referent="RBX9C6E5BEC0243475FAEE586FB82CE10F6">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2238,7 +2253,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBXAC1412792DF24EA2975B3A6F0E9B1702">
+						<Item class="UICorner" referent="RBX42F8FF1EFABE42C883A89BD05EE2FCB7">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2250,7 +2265,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBXE58FCE273F6B43EEB64807E5C1CA7EB6">
+						<Item class="UISizeConstraint" referent="RBXA5016584FF8247089FF8066FE65F17F3">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2266,7 +2281,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIAspectRatioConstraint" referent="RBX51A06C9A08B94532AB6D3F259E95B933">
+						<Item class="UIAspectRatioConstraint" referent="RBX0BE88B7ADAB9424AB2C0E386FA301D6F">
 							<Properties>
 								<float name="AspectRatio">3</float>
 								<token name="AspectType">0</token>
@@ -2278,7 +2293,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX165C32D92B054F5E9CE029C4AB450850">
+					<Item class="TextButton" referent="RBX9E7218AF82AA4E49A2B01516F8C2CC6F">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2358,7 +2373,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBX91232C40FB734C94A52D058D8970F900">
+						<Item class="UICorner" referent="RBX83FB31E3B3C546D8BB3B527252A741A5">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2370,7 +2385,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBX9A9947A6AD38412AA44EBAF8F41F0B86">
+						<Item class="UISizeConstraint" referent="RBX55757177D4B547518988025B6D2B14F0">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2386,7 +2401,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIAspectRatioConstraint" referent="RBX259ECBE373834386B97405E4BB3184BD">
+						<Item class="UIAspectRatioConstraint" referent="RBXAFE3A69112D74EFF9C3C180E018A0B38">
 							<Properties>
 								<float name="AspectRatio">3</float>
 								<token name="AspectType">0</token>
@@ -2398,7 +2413,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="UIGridLayout" referent="RBX9ECDB2255701457097DC26C2E818495D">
+					<Item class="UIGridLayout" referent="RBXB1B190ED5963444F8564D3538BB2F6D9">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<UDim2 name="CellPadding">
@@ -2423,13 +2438,13 @@ end)]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 							<token name="VerticalAlignment">1</token>
 						</Properties>
-						<Item class="Script" referent="RBX254FBE8C87FB4AE9AA06A6330660CCD7">
+						<Item class="Script" referent="RBX9044FCD5CAB144C3936D4F465ED3C3C4">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{DA93BC98-4DD0-4642-93AC-CD2275753737}</string>
+								<string name="ScriptGuid">{479BA639-2617-4598-A6EA-9C6B5313796C}</string>
 								<ProtectedString name="Source"><![CDATA[script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)
 script.Parent:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) 
@@ -2439,7 +2454,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBX021AEB3841D14EE0B7A983626F9CD1A8">
+					<Item class="TextButton" referent="RBX80F498A062D0454EAA1E1B5F40B2C0EE">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2519,7 +2534,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBXE8233C4B34844E9EA46D25FB59DBC462">
+						<Item class="UICorner" referent="RBX4DC4BB29725041F1BFC6B4C4016CA887">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2531,7 +2546,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBX6B2A972975774BF1AF5957A833690A80">
+						<Item class="UISizeConstraint" referent="RBXA4B4193F4D1D468B99F870BD4A409B3F">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2547,7 +2562,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIAspectRatioConstraint" referent="RBX52560445D91046C29AA7F94A847D1447">
+						<Item class="UIAspectRatioConstraint" referent="RBXC0324DD31BF344CEA6A867208FB70E61">
 							<Properties>
 								<float name="AspectRatio">3</float>
 								<token name="AspectType">0</token>
@@ -2559,7 +2574,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBXE1F9A8F8C368416396A57EB7EC254590">
+					<Item class="TextButton" referent="RBX02FC7FB34951432185189720D46BFD4A">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2639,7 +2654,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBXEEE5C9C43A54484E9FE9A0FC07007C0A">
+						<Item class="UICorner" referent="RBXBFE2200540794CFFBA06B541017FC2F4">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2651,7 +2666,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBX3D0B9D554B4A4550B4D58E30FFF08975">
+						<Item class="UISizeConstraint" referent="RBX118EFAC134F34D4991040DACFF836AE2">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2667,7 +2682,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIAspectRatioConstraint" referent="RBXEC713D9BC968402FA9E8CE900E5BBB47">
+						<Item class="UIAspectRatioConstraint" referent="RBX46F1A6857669414EA443A385057FB3AD">
 							<Properties>
 								<float name="AspectRatio">3</float>
 								<token name="AspectType">0</token>
@@ -2679,7 +2694,7 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
-					<Item class="TextButton" referent="RBXC95F0651F40248A1B40BD376CF3BBE2F">
+					<Item class="TextButton" referent="RBXD88279FB6DD1400A8C4E87A755C5EA1D">
 						<Properties>
 							<bool name="Active">true</bool>
 							<Vector2 name="AnchorPoint">
@@ -2759,7 +2774,7 @@ end)]]></ProtectedString>
 							<bool name="Visible">true</bool>
 							<int name="ZIndex">1</int>
 						</Properties>
-						<Item class="UICorner" referent="RBX4576DAEE9CAA487491448D83C8AF905E">
+						<Item class="UICorner" referent="RBXA42355A1F5E441C0A6F80AB153F90C7A">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<UDim name="CornerRadius">
@@ -2771,7 +2786,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UISizeConstraint" referent="RBX09749F8D5D174FCEB0B591525FD1B207">
+						<Item class="UISizeConstraint" referent="RBX026C866B321E4766BED5D608C5B3FA4F">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<Vector2 name="MaxSize">
@@ -2787,7 +2802,7 @@ end)]]></ProtectedString>
 								<BinaryString name="Tags"></BinaryString>
 							</Properties>
 						</Item>
-						<Item class="UIAspectRatioConstraint" referent="RBX2886CF512EA84480BE38057FD8D8EDE2">
+						<Item class="UIAspectRatioConstraint" referent="RBX0CBA69A1E24648A1A000656AC6D2E3D7">
 							<Properties>
 								<float name="AspectRatio">3</float>
 								<token name="AspectType">0</token>
@@ -2800,7 +2815,7 @@ end)]]></ProtectedString>
 						</Item>
 					</Item>
 				</Item>
-				<Item class="TextLabel" referent="RBX84D3D6508821492690AFD5575BFD65EC">
+				<Item class="TextLabel" referent="RBX936F29CDF9BB47F1956CEEF762234425">
 					<Properties>
 						<bool name="Active">false</bool>
 						<Vector2 name="AnchorPoint">
@@ -2877,7 +2892,7 @@ end)]]></ProtectedString>
 						<int name="ZIndex">10</int>
 					</Properties>
 				</Item>
-				<Item class="ScrollingFrame" referent="RBXD2020E9E3FB249AABC466622B27F4C9B">
+				<Item class="ScrollingFrame" referent="RBXEE21237B4CB74A4E909FC2B4741BB45E">
 					<Properties>
 						<bool name="Active">true</bool>
 						<Vector2 name="AnchorPoint">
@@ -2957,14 +2972,14 @@ end)]]></ProtectedString>
 						<bool name="Visible">false</bool>
 						<int name="ZIndex">1</int>
 					</Properties>
-					<Item class="Folder" referent="RBX4C6A8144BC3E480B945BD8C2B910C1F2">
+					<Item class="Folder" referent="RBX5087F690A1A74959A091DA082EA3CD01">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<string name="Name">Folder</string>
 							<int64 name="SourceAssetId">-1</int64>
 							<BinaryString name="Tags"></BinaryString>
 						</Properties>
-						<Item class="TextButton" referent="RBXC478172097F04E8BA05EF5BAB08EE1AA">
+						<Item class="TextButton" referent="RBXB2A41EF62D434611818D79A135B42A34">
 							<Properties>
 								<bool name="Active">true</bool>
 								<Vector2 name="AnchorPoint">
@@ -3044,13 +3059,13 @@ end)]]></ProtectedString>
 								<bool name="Visible">true</bool>
 								<int name="ZIndex">1</int>
 							</Properties>
-							<Item class="Script" referent="RBXD7CDF81A420E434792B1553BF1D0F9ED">
+							<Item class="Script" referent="RBXB8DF8E9AE2A74E9791E7FCCD06E3EDB9">
 								<Properties>
 									<BinaryString name="AttributesSerialize"></BinaryString>
 									<bool name="Disabled">false</bool>
 									<Content name="LinkedSource"><null></null></Content>
 									<string name="Name">Script</string>
-									<string name="ScriptGuid">{86B6D0F4-3C69-4C69-BDA1-8C59F67F3752}</string>
+									<string name="ScriptGuid">{24C9C5C2-042B-4F11-AFE4-323204632747}</string>
 									<ProtectedString name="Source"><![CDATA[script.Parent.MouseButton1Click:Connect(function()
 	for i, v in ipairs(script.Parent.Parent.Parent:GetChildren()) do
 		if v.Name == "ListItem" then
@@ -3064,7 +3079,7 @@ end)]]></ProtectedString>
 									<BinaryString name="Tags"></BinaryString>
 								</Properties>
 							</Item>
-							<Item class="UIAspectRatioConstraint" referent="RBXA5019CD8250748F7A27E2DAFA9F48F0F">
+							<Item class="UIAspectRatioConstraint" referent="RBX68428A83154D48B2B88AB628D959A152">
 								<Properties>
 									<float name="AspectRatio">1</float>
 									<token name="AspectType">0</token>
@@ -3077,7 +3092,7 @@ end)]]></ProtectedString>
 							</Item>
 						</Item>
 					</Item>
-					<Item class="UIGridLayout" referent="RBX36774D5CEB97448A899896CA6F951727">
+					<Item class="UIGridLayout" referent="RBX24604575F6A143F4A9753B13F5B7938F">
 						<Properties>
 							<BinaryString name="AttributesSerialize"></BinaryString>
 							<UDim2 name="CellPadding">
@@ -3102,13 +3117,13 @@ end)]]></ProtectedString>
 							<BinaryString name="Tags"></BinaryString>
 							<token name="VerticalAlignment">1</token>
 						</Properties>
-						<Item class="Script" referent="RBXAB3CFFE02E4744FF9C971EFA95F1FCBF">
+						<Item class="Script" referent="RBXDDE8907AA59546D8AE134FC871D2A8BF">
 							<Properties>
 								<BinaryString name="AttributesSerialize"></BinaryString>
 								<bool name="Disabled">false</bool>
 								<Content name="LinkedSource"><null></null></Content>
 								<string name="Name">Script</string>
-								<string name="ScriptGuid">{ED3DD054-5B4B-4300-AB66-7D0BDF6BF474}</string>
+								<string name="ScriptGuid">{0FDCFEA5-B8AF-470F-AF68-2F8190C4D1E5}</string>
 								<ProtectedString name="Source"><![CDATA[script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y)
 script.Parent:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
 	script.Parent.Parent.CanvasSize = UDim2.new(1,0,0,script.Parent.AbsoluteContentSize.Y) 
@@ -3118,6 +3133,433 @@ end)]]></ProtectedString>
 							</Properties>
 						</Item>
 					</Item>
+				</Item>
+			</Item>
+			<Item class="Folder" referent="RBX44BE42A2AA594C1D9C7D4CECFC3A6474">
+				<Properties>
+					<BinaryString name="AttributesSerialize"></BinaryString>
+					<string name="Name">JsonLua</string>
+					<int64 name="SourceAssetId">-1</int64>
+					<BinaryString name="Tags"></BinaryString>
+				</Properties>
+				<Item class="ModuleScript" referent="RBX25BF4804AB964332BCD46D64AD669EDE">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">JsonLua</string>
+						<string name="ScriptGuid">{FF2942E7-2D3A-4B14-B47B-C90473EF4187}</string>
+						<ProtectedString name="Source"><![CDATA[local json = { _version = "0.1.2" }
+
+-------------------------------------------------------------------------------
+-- Encode
+-------------------------------------------------------------------------------
+
+local encode
+
+local escape_char_map = {
+	[ "\\" ] = "\\\\",
+	[ "\"" ] = "\\\"",
+	[ "\b" ] = "\\b",
+	[ "\f" ] = "\\f",
+	[ "\n" ] = "\\n",
+	[ "\r" ] = "\\r",
+	[ "\t" ] = "\\t",
+}
+
+local escape_char_map_inv = { [ "\\/" ] = "/" }
+for k, v in pairs(escape_char_map) do
+	escape_char_map_inv[v] = k
+end
+
+
+local function escape_char(c)
+	return escape_char_map[c] or string.format("\\u%04x", c:byte())
+end
+
+
+local function encode_nil(val)
+	return "null"
+end
+
+
+local function encode_table(val, stack)
+	local res = {}
+	stack = stack or {}
+
+	-- Circular reference?
+	if stack[val] then error("circular reference") end
+
+	stack[val] = true
+
+	if rawget(val, 1) ~= nil or next(val) == nil then
+		-- Treat as array -- check keys are valid and it is not sparse
+		local n = 0
+		for k in pairs(val) do
+			if type(k) ~= "number" then
+				error("invalid table: mixed or invalid key types")
+			end
+			n = n + 1
+		end
+		if n ~= #val then
+			error("invalid table: sparse array")
+		end
+		-- Encode
+		for i, v in ipairs(val) do
+			table.insert(res, encode(v, stack))
+		end
+		stack[val] = nil
+		return "[" .. table.concat(res, ",") .. "]"
+
+	else
+		-- Treat as an object
+		for k, v in pairs(val) do
+			if type(k) ~= "string" then
+				error("invalid table: mixed or invalid key types")
+			end
+			table.insert(res, encode(k, stack) .. ":" .. encode(v, stack))
+		end
+		stack[val] = nil
+		return "{" .. table.concat(res, ",") .. "}"
+	end
+end
+
+
+local function encode_string(val)
+	return '"' .. val:gsub('[%z\1-\31\\"]', escape_char) .. '"'
+end
+
+
+local function encode_number(val)
+	-- Check for NaN, -inf and inf
+	if val ~= val or val <= -math.huge or val >= math.huge then
+		error("unexpected number value '" .. tostring(val) .. "'")
+	end
+	return string.format("%.14g", val)
+end
+
+
+local type_func_map = {
+	[ "nil"     ] = encode_nil,
+	[ "table"   ] = encode_table,
+	[ "string"  ] = encode_string,
+	[ "number"  ] = encode_number,
+	[ "boolean" ] = tostring,
+}
+
+
+encode = function(val, stack)
+	local t = type(val)
+	local f = type_func_map[t]
+	if f then
+		return f(val, stack)
+	end
+	error("unexpected type '" .. t .. "'")
+end
+
+
+function json.encode(val)
+	return ( encode(val) )
+end
+
+
+-------------------------------------------------------------------------------
+-- Decode
+-------------------------------------------------------------------------------
+
+local parse
+
+local function create_set(...)
+	local res = {}
+	for i = 1, select("#", ...) do
+		res[ select(i, ...) ] = true
+	end
+	return res
+end
+
+local space_chars   = create_set(" ", "\t", "\r", "\n")
+local delim_chars   = create_set(" ", "\t", "\r", "\n", "]", "}", ",")
+local escape_chars  = create_set("\\", "/", '"', "b", "f", "n", "r", "t", "u")
+local literals      = create_set("true", "false", "null")
+
+local literal_map = {
+	[ "true"  ] = true,
+	[ "false" ] = false,
+	[ "null"  ] = nil,
+}
+
+
+local function next_char(str, idx, set, negate)
+	for i = idx, #str do
+		if set[str:sub(i, i)] ~= negate then
+			return i
+		end
+	end
+	return #str + 1
+end
+
+
+local function decode_error(str, idx, msg)
+	local line_count = 1
+	local col_count = 1
+	for i = 1, idx - 1 do
+		col_count = col_count + 1
+		if str:sub(i, i) == "\n" then
+			line_count = line_count + 1
+			col_count = 1
+		end
+	end
+	error( string.format("%s at line %d col %d", msg, line_count, col_count) )
+end
+
+
+local function codepoint_to_utf8(n)
+	-- http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=iws-appendixa
+	local f = math.floor
+	if n <= 0x7f then
+		return string.char(n)
+	elseif n <= 0x7ff then
+		return string.char(f(n / 64) + 192, n % 64 + 128)
+	elseif n <= 0xffff then
+		return string.char(f(n / 4096) + 224, f(n % 4096 / 64) + 128, n % 64 + 128)
+	elseif n <= 0x10ffff then
+		return string.char(f(n / 262144) + 240, f(n % 262144 / 4096) + 128,
+			f(n % 4096 / 64) + 128, n % 64 + 128)
+	end
+	error( string.format("invalid unicode codepoint '%x'", n) )
+end
+
+
+local function parse_unicode_escape(s)
+	local n1 = tonumber( s:sub(3, 6),  16 )
+	local n2 = tonumber( s:sub(9, 12), 16 )
+	-- Surrogate pair?
+	if n2 then
+		return codepoint_to_utf8((n1 - 0xd800) * 0x400 + (n2 - 0xdc00) + 0x10000)
+	else
+		return codepoint_to_utf8(n1)
+	end
+end
+
+
+local function parse_string(str, i)
+	local has_unicode_escape = false
+	local has_surrogate_escape = false
+	local has_escape = false
+	local last
+	for j = i + 1, #str do
+		local x = str:byte(j)
+
+		if x < 32 then
+			decode_error(str, j, "control character in string")
+		end
+
+		if last == 92 then -- "\\" (escape char)
+			if x == 117 then -- "u" (unicode escape sequence)
+				local hex = str:sub(j + 1, j + 5)
+				if not hex:find("%x%x%x%x") then
+					decode_error(str, j, "invalid unicode escape in string")
+				end
+				if hex:find("^[dD][89aAbB]") then
+					has_surrogate_escape = true
+				else
+					has_unicode_escape = true
+				end
+			else
+				local c = string.char(x)
+				if not escape_chars[c] then
+					decode_error(str, j, "invalid escape char '" .. c .. "' in string")
+				end
+				has_escape = true
+			end
+			last = nil
+
+		elseif x == 34 then -- '"' (end of string)
+			local s = str:sub(i + 1, j - 1)
+			if has_surrogate_escape then
+				s = s:gsub("\\u[dD][89aAbB]..\\u....", parse_unicode_escape)
+			end
+			if has_unicode_escape then
+				s = s:gsub("\\u....", parse_unicode_escape)
+			end
+			if has_escape then
+				s = s:gsub("\\.", escape_char_map_inv)
+			end
+			return s, j + 1
+
+		else
+			last = x
+		end
+	end
+	decode_error(str, i, "expected closing quote for string")
+end
+
+
+local function parse_number(str, i)
+	local x = next_char(str, i, delim_chars)
+	local s = str:sub(i, x - 1)
+	local n = tonumber(s)
+	if not n then
+		decode_error(str, i, "invalid number '" .. s .. "'")
+	end
+	return n, x
+end
+
+
+local function parse_literal(str, i)
+	local x = next_char(str, i, delim_chars)
+	local word = str:sub(i, x - 1)
+	if not literals[word] then
+		decode_error(str, i, "invalid literal '" .. word .. "'")
+	end
+	return literal_map[word], x
+end
+
+
+local function parse_array(str, i)
+	local res = {}
+	local n = 1
+	i = i + 1
+	while 1 do
+		local x
+		i = next_char(str, i, space_chars, true)
+		-- Empty / end of array?
+		if str:sub(i, i) == "]" then
+			i = i + 1
+			break
+		end
+		-- Read token
+		x, i = parse(str, i)
+		res[n] = x
+		n = n + 1
+		-- Next token
+		i = next_char(str, i, space_chars, true)
+		local chr = str:sub(i, i)
+		i = i + 1
+		if chr == "]" then break end
+		if chr ~= "," then decode_error(str, i, "expected ']' or ','") end
+	end
+	return res, i
+end
+
+
+local function parse_object(str, i)
+	local res = {}
+	i = i + 1
+	while 1 do
+		local key, val
+		i = next_char(str, i, space_chars, true)
+		-- Empty / end of object?
+		if str:sub(i, i) == "}" then
+			i = i + 1
+			break
+		end
+		-- Read key
+		if str:sub(i, i) ~= '"' then
+			decode_error(str, i, "expected string for key")
+		end
+		key, i = parse(str, i)
+		-- Read ':' delimiter
+		i = next_char(str, i, space_chars, true)
+		if str:sub(i, i) ~= ":" then
+			decode_error(str, i, "expected ':' after key")
+		end
+		i = next_char(str, i + 1, space_chars, true)
+		-- Read value
+		val, i = parse(str, i)
+		-- Set
+		res[key] = val
+		-- Next token
+		i = next_char(str, i, space_chars, true)
+		local chr = str:sub(i, i)
+		i = i + 1
+		if chr == "}" then break end
+		if chr ~= "," then decode_error(str, i, "expected '}' or ','") end
+	end
+	return res, i
+end
+
+
+local char_func_map = {
+	[ '"' ] = parse_string,
+	[ "0" ] = parse_number,
+	[ "1" ] = parse_number,
+	[ "2" ] = parse_number,
+	[ "3" ] = parse_number,
+	[ "4" ] = parse_number,
+	[ "5" ] = parse_number,
+	[ "6" ] = parse_number,
+	[ "7" ] = parse_number,
+	[ "8" ] = parse_number,
+	[ "9" ] = parse_number,
+	[ "-" ] = parse_number,
+	[ "t" ] = parse_literal,
+	[ "f" ] = parse_literal,
+	[ "n" ] = parse_literal,
+	[ "[" ] = parse_array,
+	[ "{" ] = parse_object,
+}
+
+
+parse = function(str, idx)
+	local chr = str:sub(idx, idx)
+	local f = char_func_map[chr]
+	if f then
+		return f(str, idx)
+	end
+	decode_error(str, idx, "unexpected character '" .. chr .. "'")
+end
+
+
+function json.decode(str)
+	if type(str) ~= "string" then
+		error("expected argument of type string, got " .. type(str))
+	end
+	local res, idx = parse(str, next_char(str, 1, space_chars, true))
+	idx = next_char(str, idx, space_chars, true)
+	if idx <= #str then
+		decode_error(str, idx, "trailing garbage")
+	end
+	return res
+end
+
+
+return json]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
+				</Item>
+				<Item class="Script" referent="RBX8D911BEC478C42839C497921C411436F">
+					<Properties>
+						<BinaryString name="AttributesSerialize"></BinaryString>
+						<bool name="Disabled">false</bool>
+						<Content name="LinkedSource"><null></null></Content>
+						<string name="Name">LICENSE</string>
+						<string name="ScriptGuid">{3DD480B0-E22B-46B4-AE9C-F5EE2DA6A799}</string>
+						<ProtectedString name="Source"><![CDATA[--[[
+Copyright (c) 2019 rxi
+
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+]]]]></ProtectedString>
+						<int64 name="SourceAssetId">-1</int64>
+						<BinaryString name="Tags"></BinaryString>
+					</Properties>
 				</Item>
 			</Item>
 		</Item>

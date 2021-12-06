@@ -1,0 +1,54 @@
+{
+ "className": "Script",
+ "name": "LICENSE",
+ "referent": "RBX8D911BEC478C42839C497921C411436F",
+ "properties": {
+  "AttributesSerialize": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Tags": {
+   "_propertyType": "BinaryString",
+   "values": {}
+  },
+  "Disabled": {
+   "_propertyType": "bool",
+   "values": {
+    "_": "false"
+   }
+  },
+  "LinkedSource": {
+   "_propertyType": "Content",
+   "values": {
+    "null": [
+     ""
+    ]
+   }
+  },
+  "Name": {
+   "_propertyType": "string",
+   "values": {
+    "_": "LICENSE"
+   }
+  },
+  "ScriptGuid": {
+   "_propertyType": "string",
+   "values": {
+    "_": "{3DD480B0-E22B-46B4-AE9C-F5EE2DA6A799}"
+   }
+  },
+  "Source": {
+   "_propertyType": "ProtectedString",
+   "values": {
+    "_": "--[[\nCopyright (c) 2019 rxi\n\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n]]"
+   }
+  },
+  "SourceAssetId": {
+   "_propertyType": "int64",
+   "values": {
+    "_": "-1"
+   }
+  }
+ },
+ "_exportInfo": "Exported with rbx-export v1.1.0. Contains all properties of this instance."
+}

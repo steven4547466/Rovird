@@ -1,7 +1,7 @@
 {
  "className": "TextButton",
  "name": "ListDNC",
- "referent": "RBXDCEDDDFE66A64E099CB6FA73341A1EF3",
+ "referent": "RBX9C6E5BEC0243475FAEE586FB82CE10F6",
  "properties": {
   "Active": {
    "_propertyType": "bool",

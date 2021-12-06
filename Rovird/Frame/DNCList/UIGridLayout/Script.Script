@@ -1,7 +1,7 @@
 {
  "className": "Script",
  "name": "Script",
- "referent": "RBXAB3CFFE02E4744FF9C971EFA95F1FCBF",
+ "referent": "RBXDDE8907AA59546D8AE134FC871D2A8BF",
  "properties": {
   "AttributesSerialize": {
    "_propertyType": "BinaryString",
@@ -34,7 +34,7 @@
   "ScriptGuid": {
    "_propertyType": "string",
    "values": {
-    "_": "{ED3DD054-5B4B-4300-AB66-7D0BDF6BF474}"
+    "_": "{0FDCFEA5-B8AF-470F-AF68-2F8190C4D1E5}"
    }
   },
   "Source": {
